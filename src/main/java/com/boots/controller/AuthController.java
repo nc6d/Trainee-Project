@@ -17,9 +17,10 @@ public class AuthController {
     private JwtProvider jwtProvider;
 
     /**
-     *
+     * The method that generates the JWT token
      * @param request
-     * @return
+     * @return AuthResponse(token)
+     * @author dfcz652
      */
     @PostMapping("/auth")
     public AuthResponse auth(@RequestBody AuthRequest request) {
