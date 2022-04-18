@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     *
+     * Spring Security configuration with JWT setup
      * @param httpSecurity
      * @throws Exception
      */
@@ -69,6 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/");
     }
 
+    /**
+     * The method that is needed when the user logs in
+     * @param auth
+     * @throws Exception
+     */
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());

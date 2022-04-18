@@ -1,4 +1,4 @@
-package com.boots.entity;
+package com.boots.domain;
 
 import lombok.Data;
 

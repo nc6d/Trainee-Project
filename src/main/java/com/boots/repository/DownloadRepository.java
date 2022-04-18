@@ -1,4 +1,4 @@
-package com.boots.service;
+package com.boots.repository;
 
 import com.boots.entity.Links;
 
