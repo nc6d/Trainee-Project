@@ -2,8 +2,10 @@ package com.boots.controller;
 
 import com.boots.config.jwt.JwtProvider;
 
-import com.boots.entity.User;
+import com.boots.domain.User;
 
+import com.boots.dto.AuthRequest;
+import com.boots.dto.AuthResponse;
 import com.boots.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;

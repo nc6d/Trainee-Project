@@ -1,6 +1,6 @@
 package com.boots.controller;
 
-import com.boots.service.LinksService;
+import com.boots.repository.LinksRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class DownloadController {
 
     @Autowired
-    private LinksService linksService;
+    private LinksRepository linksRepository;
 
     /**
      * A method that requests all files from the database and returns a generated html page with all files <<associated with getPathsForLinks()>>
@@ -29,7 +29,7 @@ public class DownloadController {
      */
     @RequestMapping(value = "/downloading")
     public String download(Model model){
-        model.addAttribute("pathList", linksService.getPathsForLinks());
+        model.addAttribute("pathList", linksRepository.getPathsForLinks());
 
         return "downloading";
     }
@@ -45,7 +45,7 @@ public class DownloadController {
 
         System.out.println("Путь файла: " + file_token);
 
-        ResponseEntity<Object> file = linksService.downloadFileAlongTheWay(file_token);
+        ResponseEntity<Object> file = linksRepository.downloadFileAlongTheWay(file_token);
         System.out.println("Файл выдан");
 
         return file;
@@ -60,8 +60,8 @@ public class DownloadController {
     @GetMapping("/delete")
     public String delete(@RequestParam("id") Long id,@RequestParam("file_token") String file_token) {
 
-        linksService.deleteFile(file_token);
-        linksService.delete(id);
+        linksRepository.deleteFile(file_token);
+        linksRepository.delete(id);
         System.out.println("Удалено успешно");
 
         return "redirect:/downloading";

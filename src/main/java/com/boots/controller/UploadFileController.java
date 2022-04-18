@@ -2,7 +2,7 @@ package com.boots.controller;
 
 import com.boots.entity.Links;
 
-import com.boots.service.DownloadRepository;
+import com.boots.repository.DownloadRepository;
 
 import com.boots.util.FileUtil;
 

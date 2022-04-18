@@ -1,6 +1,6 @@
 package com.boots.controller;
 
-import com.boots.entity.User;
+import com.boots.domain.User;
 
 import com.boots.service.UserService;
 

@@ -1,6 +1,7 @@
 package com.boots.service;
 
 
+import com.boots.repository.LinksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.io.InputStreamResource;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class LinksServiceImpl implements LinksService {
+public class LinksRepositoryImpl implements LinksRepository {
 
     @Autowired
     JdbcTemplate jdbcTemplate;

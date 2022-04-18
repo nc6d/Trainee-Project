@@ -1,6 +1,6 @@
 package com.boots.repository;
 
-import com.boots.entity.User;
+import com.boots.domain.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

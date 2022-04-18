@@ -1,7 +1,7 @@
 package com.boots.service;
 
-import com.boots.entity.Role;
-import com.boots.entity.User;
+import com.boots.domain.Role;
+import com.boots.domain.User;
 
 import com.boots.repository.RoleRepository;
 import com.boots.repository.UserRepository;
