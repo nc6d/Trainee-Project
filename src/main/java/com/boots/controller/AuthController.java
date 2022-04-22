@@ -26,7 +26,7 @@ public class AuthController {
     /**
      * The method that generates the JWT token
      * @param request
-     * @return AuthResponse(token)
+     * @return AuthResponse(token) - JSON
      * @author dfcz652
      */
     @PostMapping("/auth")
