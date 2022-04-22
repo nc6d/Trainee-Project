@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
@@ -40,7 +41,7 @@ public class RegistrationController {
      * A method that checks if the password matches, if the username is busy and saves the logged in user to the DB<associated with userService.saveUser(userForm)>
      * @param userForm
      * @param bindingResult
-     * @param model
+     * @param //model
      * @return redirect:/
      */
     @PostMapping("/registration")
@@ -60,4 +61,24 @@ public class RegistrationController {
 
         return "redirect:/";
     }
+
+//    @PostMapping("/registration")
+//    public String checkingForUserCreationErrors(@RequestBody User userForm, BindingResult bindingResult) {
+//
+//        String jsonResult = "";
+//
+//        if (bindingResult.hasErrors()) {
+//            return "404 - ERROR";
+//        }
+//        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
+//            jsonResult = "Пароли не совпадают";
+//            return "registration";
+//        }
+//        if (!userService.saveUser(userForm)){
+//            jsonResult = "Пользователь с таким именем уже существует";
+//            return jsonResult;
+//        }
+//
+//        return "Пользователь создан";
+//    }
 }
