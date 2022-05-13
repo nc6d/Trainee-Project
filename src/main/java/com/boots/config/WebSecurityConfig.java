@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -43,30 +44,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf()
-                    .disable()
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                     //Доступ только для не зарегистрированных пользователей
                     .antMatchers("/registration").not().fullyAuthenticated()
                     //Доступ только для пользователей с ролью Администратор
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/uploadingAndDownloading/**").hasRole("USER")
+                    .antMatchers("/admin").hasRole("ADMIN")
+                    .antMatchers("/downloading","/download","/upload").hasRole("USER")
                     //Доступ разрешен всем пользователей
-                    .antMatchers("/", "/resources/**", "/auth").permitAll()
+                    .antMatchers("/auth").permitAll()
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
                 //Все остальные страницы требуют аутентификации
 //                .anyRequest().authenticated()
-                .and()
-                    //Настройка для входа в систему
-                    .formLogin()
-                    .loginPage("/login")
-                    //Перенарпавление на главную страницу после успешного входа
-                    .defaultSuccessUrl("/")
-                    .permitAll()
-                .and()
-                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                    .logout()
-                    .permitAll()
-                    .logoutSuccessUrl("/");
+//                .and()
+//                    //Настройка для входа в систему
+//                    .formLogin()
+//                    .usernameParameter("username")
+//                    .passwordParameter("password")
+//                    .loginPage("/login")
+//                    //Перенарпавление на главную страницу после успешного входа
+//                    .defaultSuccessUrl("/loginSuccessUser")
+//                    .permitAll()
+//                .and()
+//                    //.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                    .logout()
+//                    .permitAll()
+//                    .logoutSuccessUrl("/logoutSuccessUser");
     }
 
     /**
