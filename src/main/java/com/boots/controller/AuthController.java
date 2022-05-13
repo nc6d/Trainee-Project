@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,7 +26,7 @@ public class AuthController {
 
     /**
      * The method that generates the JWT token
-     * @param request
+     * @param //request
      * @return AuthResponse(token) - JSON
      * @author dfcz652
      */
@@ -36,4 +37,12 @@ public class AuthController {
         System.out.println(new AuthResponse(token));
         return new AuthResponse(token);
     }
+
+//    @PostMapping("/auth")
+//    public AuthResponse auth(@RequestParam("username") String username, @RequestParam("password") String password) {
+//        User user = userService.PasswordEncryption(request.getUsername(), request.getPassword());
+//        String token = jwtProvider.generateToken(user.getUsername());
+//        System.out.println(new AuthResponse(token));
+//        return new AuthResponse(token);
+//    }
 }
