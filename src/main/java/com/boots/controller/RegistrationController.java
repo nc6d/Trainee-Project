@@ -1,0 +1,88 @@
+package com.boots.controller;
+
+import com.boots.domain.User;
+
+import com.boots.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.ui.Model;
+
+import org.springframework.validation.BindingResult;
+
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@Controller
+public class RegistrationController {
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * Method returning registration page
+     * @param model
+     * @return registration
+     */
+//    @GetMapping("/registration")
+//    public String registration(Model model) {
+//        model.addAttribute("userForm", new User());
+//
+//        return "registration";
+//    }
+
+    /**
+     * A method that checks if the password matches, if the username is busy and saves the logged in user to the DB<associated with userService.saveUser(userForm)>
+     * @param //userForm
+     * @param bindingResult
+     * @param //model
+     * @return redirect:/
+     */
+//    @PostMapping("/registration")
+//    public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "registration";
+//        }
+//        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
+//            model.addAttribute("passwordError", "Пароли не совпадают");
+//            return "registration";
+//        }
+//        if (!userService.saveUser(userForm)){
+//            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+//            return "registration";
+//        }
+//
+//        return "redirect:/";
+//    }
+
+    @PostMapping("/registration")
+    public @ResponseBody String checkingForUserCreationErrorsAndSaveUser(@RequestParam("username") String username,
+                                                                         @RequestParam("password") String password,
+                                                                         @RequestParam("passwordConfirm") String passwordConfirm,
+                                                                         User user, BindingResult bindingResult) {
+
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setPasswordConfirm(passwordConfirm);
+
+        String jsonResult;
+
+        if (bindingResult.hasErrors()) {
+            return "404 - ERROR";
+        }
+        if (!user.getPassword().equals(user.getPasswordConfirm())){
+            jsonResult = "Пароли не совпадают";
+            return jsonResult;
+        }
+        if (!userService.saveUser(user)){
+            jsonResult = "Пользователь с таким именем уже существует";
+            return jsonResult;
+        }
+
+        return "Пользователь создан";
+    }
+}

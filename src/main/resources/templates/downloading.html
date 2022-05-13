@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Downloading</title>
+    <link href="/css/bootstrap.css" type="text/css" rel="stylesheet" />
+    <script src="/js/jquery-3.1.0.min.js" ></script>
+    <script src="/js/bootstrap.min.js" ></script>
+</head>
+<body>
+<div class="container">
+    <h1>All files</h1>
+    <table class="table table-striped table-fixed">
+        <thead>
+        <th>Links</th>
+        <th class="text-center">Names</th>
+        </thead>
+        <tbody>
+
+        <tr th:each="path : ${pathList}">
+            <td type="button" class="btn btn-success"><a th:href="@{/download(file_token=${path.get('file_token')
+                                                                                             })
+                                                                     }" class="text-center">Download</a></td>
+            <td th:text="${path.get('path')}" class="text-center"></td>
+            <td type="button" class="btn btn-danger"><a th:href="@{/delete(id=${path.get('file_id')
+                                                                                },
+                                                                           file_token=${path.get('file_token')
+                                                                                        })
+                                                                  }"  style="color:#008000" class="text-center">Delete</a></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
