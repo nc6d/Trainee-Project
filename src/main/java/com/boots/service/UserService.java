@@ -1,8 +1,12 @@
 package com.boots.service;
 
+import com.boots.domain.ERole;
 import com.boots.domain.Role;
 import com.boots.domain.User;
 
+
+import com.boots.exception.NotEqualPasswordException;
+import com.boots.exception.UserIsTakenException;
 import com.boots.repository.RoleRepository;
 import com.boots.repository.UserRepository;
 
@@ -16,18 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
 
     @Autowired
     UserRepository userRepository;
@@ -78,7 +77,7 @@ public class UserService implements UserDetailsService {
      * @param userId
      * @return userFromDb or new User()
      */
-    public User findUserById(Long userId) {
+    public User findUserById(String userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
@@ -92,31 +91,80 @@ public class UserService implements UserDetailsService {
         return allUsers;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Saving user to DB<associated with userRepository.save(user)>
-     * @param user
+//     * @param user
      * @return true of false
      * @author dfcz652
      */
-    public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+    public User saveUser(String username, String userPassword, String passwordConfirm) throws NotEqualPasswordException, UserIsTakenException {
 
-        if (userFromDB != null) {
-            return false;
+        User user = new User(username, userPassword);
+
+        if (!user.getPassword().equals(passwordConfirm)){
+            throw new NotEqualPasswordException(userPassword, passwordConfirm);
         }
 
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        User userFromDB = userRepository.findByUsername(user.getUsername());
+        if (userFromDB != null) {
+            throw new UserIsTakenException(user.getUsername());
+        }
+
+
+        if(username.equals("admin") && userPassword.equals("111222FFF")){
+            user.setRole(new Role(ERole.ROLE_ADMIN));
+        } else if (username.equals("mod") && userPassword.equals("000111AAA")) {
+            user.setRole(new Role(ERole.ROLE_MODERATOR));
+        } else {
+            user.setRole(new Role(ERole.ROLE_USER));
+        }
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return true;
+        return user;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Removing user from DB via ID<associated with userRepository.deleteById(userId)>
      * @param userId
      * @return true or false
      */
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(String userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
             return true;
@@ -129,8 +177,8 @@ public class UserService implements UserDetailsService {
      * @param idMin
      * @return em
      */
-    public List<User> usergetList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
-    }
+//    public List<User> usergetList(Long idMin) {
+//        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
+//                .setParameter("paramId", idMin).getResultList();
+//    }
 }

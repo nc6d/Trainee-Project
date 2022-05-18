@@ -1,11 +1,14 @@
 package com.boots.entity;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.persistence.*;
 
 import java.util.Objects;
 
 @Entity
-@Table(name = "links")
+//@Table(name = "links")
+@Document(collection="links")
 public class Links {
 
     @Id

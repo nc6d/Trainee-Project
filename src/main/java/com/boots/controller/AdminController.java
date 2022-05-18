@@ -38,7 +38,7 @@ public class AdminController {
      * @return redirect:/admin
      */
     @PostMapping("/admin")
-    public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) Long userId,
+    public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) String userId,
                               @RequestParam(required = true, defaultValue = "" ) String action,
                               Model model) {
         if (action.equals("delete")){
@@ -53,9 +53,9 @@ public class AdminController {
      * @param model
      * @return admin
      */
-    @GetMapping("/admin/get/{userId}")
-    public String getUser(@PathVariable("userId") Long userId, Model model) {
-        model.addAttribute("allUsers", userService.usergetList(userId));
-        return "admin";
-    }
+//    @GetMapping("/admin/get/{userId}")
+//    public String getUser(@PathVariable("userId") Long userId, Model model) {
+//        model.addAttribute("allUsers", userService.usergetList(userId));
+//        return "admin";
+//    }
 }

@@ -1,32 +1,22 @@
 package com.boots.controller;
 
-import com.boots.dto.AuthResponse;
-import com.boots.entity.Links;
 import com.boots.repository.LinksRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Controller;
 
-import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import static org.springframework.http.MediaType.ALL;
-import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 
 @Controller
 public class DownloadController {

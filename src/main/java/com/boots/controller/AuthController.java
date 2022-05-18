@@ -4,15 +4,14 @@ import com.boots.config.jwt.JwtProvider;
 
 import com.boots.domain.User;
 
-import com.boots.dto.AuthRequest;
-import com.boots.dto.AuthResponse;
+import com.boots.dto.request.AuthRequest;
+import com.boots.dto.response.AuthResponse;
 import com.boots.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

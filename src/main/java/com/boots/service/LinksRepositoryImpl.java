@@ -24,8 +24,8 @@ import java.util.Map;
 @Service
 public class LinksRepositoryImpl implements LinksRepository {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+//    @Autowired
+//    JdbcTemplate jdbcTemplate;
 
     /**
      * Executing a query to the DB(delete from links where id = ?)
@@ -36,7 +36,7 @@ public class LinksRepositoryImpl implements LinksRepository {
 
         String deleteQuery = "delete from links where id = ?";
 
-        jdbcTemplate.update(deleteQuery, id);
+//        jdbcTemplate.update(deleteQuery, id);
     }
 
     /**
@@ -87,7 +87,7 @@ public class LinksRepositoryImpl implements LinksRepository {
         textSQL = textSQL + "l.id::TEXT AS file_id ";
         textSQL = textSQL + "from links l";
 
-        List<Map<String, Object>> listPathsForLinks = jdbcTemplate.queryForList(textSQL);
+        List<Map<String, Object>> listPathsForLinks = null; //jdbcTemplate.queryForList(textSQL);
         return listPathsForLinks;
     }
 }
