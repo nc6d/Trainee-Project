@@ -5,13 +5,16 @@ import com.boots.domain.Role;
 import com.boots.domain.User;
 
 
+import com.boots.dto.response.MessageResponse;
 import com.boots.exception.NotEqualPasswordException;
 import com.boots.exception.UserIsTakenException;
 import com.boots.repository.RoleRepository;
 import com.boots.repository.UserRepository;
 
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.*;
 
@@ -56,6 +61,26 @@ public class UserService implements UserDetailsService {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Method that uses loadUserByUsername and bCryptPasswordEncoder encrypts the found user's password<associated with loadUserByUsername>
      * @param username
@@ -71,6 +96,30 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Search for a user in the database by id<associated with findById(userId)>
@@ -91,43 +140,27 @@ public class UserService implements UserDetailsService {
         return allUsers;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Saving user to DB<associated with userRepository.save(user)>
 //     * @param user
      * @return true of false
      * @author dfcz652
      */
-    public User saveUser(String username, String userPassword, String passwordConfirm) throws NotEqualPasswordException, UserIsTakenException {
+    public User saveUser(String userName, String userPassword, String passwordConfirm) throws NotEqualPasswordException, UserIsTakenException {
 
-        User user = new User(username, userPassword);
-
-        if (!user.getPassword().equals(passwordConfirm)){
+        if (!userPassword.equals(passwordConfirm)){
             throw new NotEqualPasswordException(userPassword, passwordConfirm);
         }
 
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB != null) {
-            throw new UserIsTakenException(user.getUsername());
+        if (userRepository.findByUsername(userName) != null) {
+            throw new UserIsTakenException(userName);
         }
 
+        User user = new User(userName, userPassword);
 
-        if(username.equals("admin") && userPassword.equals("111222FFF")){
+        if(userName.equals("admin") && userPassword.equals("111222FFF")){
             user.setRole(new Role(ERole.ROLE_ADMIN));
-        } else if (username.equals("mod") && userPassword.equals("000111AAA")) {
+        } else if (userName.equals("mod") && userPassword.equals("000111AAA")) {
             user.setRole(new Role(ERole.ROLE_MODERATOR));
         } else {
             user.setRole(new Role(ERole.ROLE_USER));
@@ -137,27 +170,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return user;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Removing user from DB via ID<associated with userRepository.deleteById(userId)>

@@ -1,10 +1,23 @@
 package com.boots.exception;
 
-public class UserIsTakenException extends ErrorCodeException {
+public class UserIsTakenException extends GeneralException implements CustomException {
 
-    public static final int CODE = 434;
+    public final int CODE = 433;
+
+    private String userName;
 
     public UserIsTakenException(String userName) {
-        super(CODE, " User with name " + userName + " IS TAKEN");
+        this.userName = userName;
     }
+
+    @Override
+    public String exceptionMessage() {
+        return "User with name " + userName + " IS TAKEN";
+    }
+
+    @Override
+    public int getCode() {
+        return CODE;
+    }
+
 }

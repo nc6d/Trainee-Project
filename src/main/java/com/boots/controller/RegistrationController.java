@@ -3,6 +3,7 @@ package com.boots.controller;
 import com.boots.domain.User;
 
 import com.boots.dto.request.RegistrationRequest;
+import com.boots.dto.response.MessageResponse;
 import com.boots.dto.response.UserInfoResponse;
 import com.boots.exception.NotEqualPasswordException;
 import com.boots.exception.UserIsTakenException;
@@ -11,8 +12,12 @@ import com.boots.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -20,11 +25,38 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> checkingForUserCreationErrorsAndSaveUser(@Valid @RequestBody RegistrationRequest registrationRequest) throws NotEqualPasswordException, UserIsTakenException {
+
+        User user = userService.saveUser(registrationRequest.getUsername(), registrationRequest.getPassword(), registrationRequest.getPasswordConfirm());
+
+        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername(),user.getPassword(), user.getRole().getRoleName()));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Method returning registration page
@@ -69,32 +101,9 @@ public class RegistrationController {
 //                                                                         @RequestParam("passwordConfirm") String passwordConfirm,
 //                                                                         User user, BindingResult bindingResult) {
 
-    @ApiOperation(value = "123-Upload profile photo. Override exist photo")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "123-User application status returned"), @ApiResponse(code = 433, message = " text from @ApiResponse ")})
-    @PostMapping("/registration")
-    public ResponseEntity<?> checkingForUserCreationErrorsAndSaveUser(@Valid @RequestBody RegistrationRequest registrationRequest) throws NotEqualPasswordException, UserIsTakenException {
 
-//        User user  = new User(registrationRequest.getUsername(), registrationRequest.getPassword());
 
-//        User user  = new User();
-//        user.setUsername(authRequest.getUsername());
-//        user.setPassword(authRequest.getPassword());
-//        user.setPasswordConfirm(authRequest.getPasswordConfirm());
 
-//        if (bindingResult.hasErrors()) {
-//            return "404 - ERROR";
-//        }
 
-//        if (!user.getPassword().equals(registrationRequest.getPasswordConfirm())){
-//            return ResponseEntity.ok(new MessageResponse("The passwords are not equal"));
-//        }
-
-//        if (!userService.saveUser(registrationRequest.getUsername(), registrationRequest.getPassword(), registrationRequest.getPasswordConfirm())){
-//            return ResponseEntity.ok(new MessageResponse("There is user with name " + registrationRequest.getUsername() + " in the DB"));
-//        }
-//        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
-
-        User user = userService.saveUser(registrationRequest.getUsername(), registrationRequest.getPassword(), registrationRequest.getPasswordConfirm());
-        return ResponseEntity.ok().body(new UserInfoResponse(user.getUsername(),user.getPassword()));
-    }
 }
+
